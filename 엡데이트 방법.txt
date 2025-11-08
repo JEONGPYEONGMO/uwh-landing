@@ -1,0 +1,6 @@
+# 코드 수정 후
+git add .
+git commit -m "Update"
+git push
+
+# 자동으로 재배포됨! (1-2분)

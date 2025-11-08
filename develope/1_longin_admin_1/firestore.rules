@@ -1,0 +1,57 @@
+// Firestore Security Rules
+// Firebase Console > Firestore Database > Rules 탭에서 다음 규칙을 설정하세요
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // users 컬렉션
+    match /users/{userId} {
+      // 본인의 정보만 읽기 가능
+      allow read: if request.auth != null && request.auth.uid == userId;
+      
+      // 회원가입 시 자신의 문서 생성 가능
+      allow create: if request.auth != null && request.auth.uid == userId;
+      
+      // 본인 정보 수정 가능 (단, role은 관리자만 수정 가능)
+      allow update: if request.auth != null && 
+                       request.auth.uid == userId &&
+                       (request.resource.data.role == resource.data.role || 
+                        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin');
+      
+      // 관리자는 모든 사용자 정보 읽기/쓰기 가능
+      allow read, write: if request.auth != null && 
+                            get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // events 컬렉션 (예시)
+    match /events/{eventId} {
+      // 모든 로그인 사용자는 읽기 가능
+      allow read: if request.auth != null;
+      
+      // 관리자만 생성/수정/삭제 가능
+      allow write: if request.auth != null && 
+                      get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // shop 컬렉션 (예시)
+    match /shop/{productId} {
+      // 모든 사용자 읽기 가능
+      allow read: if true;
+      
+      // 관리자만 생성/수정/삭제 가능
+      allow write: if request.auth != null && 
+                      get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // learning 컬렉션 (예시)
+    match /learning/{lessonId} {
+      // 로그인 사용자만 읽기 가능
+      allow read: if request.auth != null;
+      
+      // 관리자만 생성/수정/삭제 가능
+      allow write: if request.auth != null && 
+                      get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+  }
+}

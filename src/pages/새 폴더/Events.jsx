@@ -386,63 +386,67 @@ const Events = () => {
         <div className="space-y-6">
           {sortedTournaments.map(event => (
             <div key={event.id} className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
-              <div className="bg-gradient-to-r from-red-500 to-orange-500 p-8 text-white">
-                {/* 제목과 상태 */}
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-4">
+              <div className="md:flex">
+                {/* Left Side - Tournament Info */}
+                <div className="bg-gradient-to-r from-red-500 to-orange-500 p-8 text-white md:w-2/5">
+                  <div className="flex items-center gap-4 mb-4">
                     <div className="text-6xl">{event.image}</div>
-                    <h3 className="text-2xl font-bold">{event.title}</h3>
+                    <div>
+                      <h3 className="text-2xl font-bold mb-2">{event.title}</h3>
+                      <p className="opacity-90">{event.organizer}</p>
+                    </div>
                   </div>
                   {event.status && (
-                    <div className={`px-3 py-1 rounded-full text-sm font-semibold whitespace-nowrap ${
+                    <div className={`inline-block px-3 py-1 rounded-full text-sm font-semibold mb-4 ${
                       event.status === '종료됨' ? 'bg-gray-700/70' : 'bg-green-600'
                     }`}>
                       {event.status}
                     </div>
                   )}
-                </div>
-                
-                {/* 설명 */}
-                <p className="opacity-90 mb-6">{event.description}</p>
-                
-                {/* 대회 정보 */}
-                <div className="space-y-3 mb-6">
-                  <div className="flex items-center gap-2">
-                    <CalIcon className="w-5 h-5" />
-                    <span>{event.date} ~ {event.endDate}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <MapPin className="w-5 h-5" />
-                    <span>{event.location}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Users className="w-5 h-5" />
-                    <span>{event.participants > 0 ? `${event.participants}명 참가 예정` : '참가자 정보 확인 중'}</span>
+                  <div className="space-y-3 mt-6">
+                    <div className="flex items-center gap-2">
+                      <CalIcon className="w-5 h-5" />
+                      <span>{event.date} ~ {event.endDate}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <MapPin className="w-5 h-5" />
+                      <span>{event.location}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Users className="w-5 h-5" />
+                      <span>{event.participants > 0 ? `${event.participants}명 참가 예정` : '참가자 정보 확인 중'}</span>
+                    </div>
                   </div>
                 </div>
                 
-                {/* 공식 웹사이트 링크 */}
-                <div className="mb-4">
-                  <a href={event.website} target="_blank" rel="noopener noreferrer"
-                    className="text-white hover:text-gray-200 font-semibold inline-flex items-center gap-2 underline">
-                    <ExternalLink className="w-5 h-5" />
-                    공식 웹사이트
-                  </a>
-                </div>
-                
-                {/* 버튼들 */}
-                <div className="flex gap-3">
-                  <button onClick={() => handleParticipate(event)}
-                    className="flex-1 bg-blue-500 text-white py-3 rounded-xl font-semibold hover:bg-blue-600 transition-all">
-                    <UserPlus className="w-5 h-5 inline mr-2" />
-                    참가 신청
-                  </button>
+                {/* Right Side - Actions */}
+                <div className="p-8 md:w-3/5 flex flex-col justify-between">
+                  <div>
+                    <p className="text-gray-600 dark:text-gray-400 mb-6">{event.description}</p>
+                  </div>
                   
-                  <a href="/team"
-                    className="flex-1 text-center bg-green-500 text-white py-3 rounded-xl font-semibold hover:bg-green-600 transition-all">
-                    <Users className="w-5 h-5 inline mr-2" />
-                    팀빌딩
-                  </a>
+                  <div className="space-y-3">
+                    {/* 공식 웹사이트 */}
+                    <a href={event.website} target="_blank" rel="noopener noreferrer"
+                      className="block w-full text-center bg-purple-500 text-white py-3 rounded-xl font-semibold hover:bg-purple-600 transition-all">
+                      <ExternalLink className="w-5 h-5 inline mr-2" />
+                      공식 웹사이트
+                    </a>
+                    
+                    {/* 참가 버튼 */}
+                    <button onClick={() => handleParticipate(event)}
+                      className="w-full bg-blue-500 text-white py-3 rounded-xl font-semibold hover:bg-blue-600 transition-all">
+                      <UserPlus className="w-5 h-5 inline mr-2" />
+                      참가 예정
+                    </button>
+                    
+                    {/* 팀빌딩 */}
+                    <a href="/team"
+                      className="block w-full text-center bg-green-500 text-white py-3 rounded-xl font-semibold hover:bg-green-600 transition-all">
+                      <Users className="w-5 h-5 inline mr-2" />
+                      팀빌딩
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -454,7 +458,7 @@ const Events = () => {
       {showParticipateModal && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => setShowParticipateModal(false)}>
           <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-md w-full p-8" onClick={e => e.stopPropagation()}>
-            <h2 className="text-2xl font-bold mb-6">참가 신청</h2>
+            <h2 className="text-2xl font-bold mb-6">참가 예정</h2>
             <form onSubmit={submitParticipation} className="space-y-4">
               <div>
                 <label className="block font-semibold mb-2">이름 *</label>

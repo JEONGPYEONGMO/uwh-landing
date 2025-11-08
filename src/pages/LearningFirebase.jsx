@@ -99,14 +99,6 @@ const LearningFirebase = () => {
           <h1 className="text-5xl font-bold mb-6">학습자료</h1>
           <p className="text-xl mb-2">수중하키 실력 향상을 위한 모든 자료</p>
           <p className="text-sm opacity-80 mb-6">Firebase 클라우드 저장소 · 실시간 동기화</p>
-          
-          {/* 관리자 페이지 링크 */}
-          <Link 
-            to="/learning-admin"
-            className="inline-block bg-white/20 hover:bg-white/30 backdrop-blur-sm px-6 py-3 rounded-xl font-semibold transition-all"
-          >
-            🛠️ 관리자 페이지
-          </Link>
         </div>
       </div>
 

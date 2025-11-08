@@ -1,8 +1,6 @@
 // src/pages/Login.jsx
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { User, Lock, Mail, Globe, Users } from 'lucide-react';
-import { useAuth } from '../contexts/AuthContext';
 
 const Login = () => {
   const [isSignup, setIsSignup] = useState(false);
@@ -13,53 +11,17 @@ const Login = () => {
     gender: '',
     country: ''
   });
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
 
-  const { login, signup } = useAuth();
-  const navigate = useNavigate();
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setError('');
-    setLoading(true);
-
-    try {
-      if (isSignup) {
-        // 회원가입 로직
-        const result = await signup(formData.email, formData.password, {
-          name: formData.name,
-          gender: formData.gender,
-          country: formData.country
-        });
-
-        if (result.success) {
-          alert(`회원가입 완료!\n환영합니다, ${formData.name}님! 🎉`);
-          // 회원가입 후 자동으로 일반 사용자 페이지로 이동
-          navigate('/');
-        } else {
-          setError(result.error);
-        }
-      } else {
-        // 로그인 로직
-        const result = await login(formData.email, formData.password);
-
-        if (result.success) {
-          // 역할에 따라 리디렉션
-          if (result.role === 'admin') {
-            navigate('/admin/events');
-          } else {
-            navigate('/');
-          }
-        } else {
-          setError('로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.');
-        }
-      }
-    } catch (err) {
-      setError('오류가 발생했습니다. 다시 시도해주세요.');
-      console.error(err);
-    } finally {
-      setLoading(false);
+    if (isSignup) {
+      // 회원가입 로직
+      console.log('회원가입:', formData);
+      alert(`회원가입 완료!\n환영합니다, ${formData.name}님! 🎉`);
+    } else {
+      // 로그인 로직
+      console.log('로그인:', { email: formData.email, password: formData.password });
+      alert('로그인 성공! 🎉');
     }
   };
 
@@ -79,7 +41,6 @@ const Login = () => {
       gender: '',
       country: ''
     });
-    setError('');
   };
 
   return (
@@ -90,7 +51,7 @@ const Login = () => {
           {/* Header */}
           <div className="bg-gradient-to-r from-blue-500 to-cyan-500 p-8 text-center">
             <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-5xl">👋</span>
+              <span className="text-5xl">🏒</span>
             </div>
             <h1 className="text-3xl font-bold text-white mb-2">
               {isSignup ? '회원가입' : '로그인'}
@@ -99,13 +60,6 @@ const Login = () => {
               {isSignup ? 'UWH 커뮤니티에 가입하세요' : 'UWH에 오신 것을 환영합니다'}
             </p>
           </div>
-
-          {/* Error Message */}
-          {error && (
-            <div className="mx-8 mt-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-xl">
-              {error}
-            </div>
-          )}
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="p-8 space-y-6">
@@ -231,10 +185,9 @@ const Login = () => {
             {/* 제출 버튼 */}
             <button
               type="submit"
-              disabled={loading}
-              className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-4 rounded-xl font-bold text-lg hover:shadow-2xl transition-all transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-4 rounded-xl font-bold text-lg hover:shadow-2xl transition-all transform hover:scale-105 active:scale-95"
             >
-              {loading ? '처리 중...' : (isSignup ? '가입하기' : '로그인')}
+              {isSignup ? '가입하기' : '로그인'}
             </button>
 
             {/* 추가 옵션 */}

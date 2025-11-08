@@ -21,7 +21,7 @@ const Travel = () => {
       comments: [
         { 
           id: 1, 
-          author: '시스템', 
+          author: '근처 클럽 추천', 
           text: '📍 제주에서 활동 중인 추천 클럽', 
           clubs: ['제주 마린스', 'Jeju Underwater Sports'],
           isAuto: true,
@@ -45,7 +45,7 @@ const Travel = () => {
       comments: [
         { 
           id: 1, 
-          author: '시스템', 
+          author: '근처 클럽 추천', 
           text: '📍 부산에서 활동 중인 추천 클럽', 
           clubs: ['Busan Sharks', '해운대 UWH'],
           isAuto: true,
@@ -130,7 +130,7 @@ const Travel = () => {
     // 자동 추천 댓글 생성
     const autoComment = recommendedClubs.length > 0 ? [{
       id: 1,
-      author: '시스템',
+      author: '근처 클럽 추천',
       text: `📍 ${newTraveler.city}에서 활동 중인 추천 클럽`,
       clubs: recommendedClubs,
       isAuto: true,

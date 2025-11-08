@@ -141,14 +141,6 @@ const Shop = () => {
         <div className="max-w-7xl mx-auto px-4 text-center text-white">
           <h1 className="text-5xl font-bold mb-6">샵</h1>
           <p className="text-xl mb-6">수중하키 장비를 구매하세요</p>
-          
-          {/* 관리자 페이지 링크 */}
-          <Link 
-            to="/shop-admin"
-            className="inline-block bg-white/20 hover:bg-white/30 backdrop-blur-sm px-6 py-3 rounded-xl font-semibold transition-all"
-          >
-            🛠️ 관리자 페이지
-          </Link>
         </div>
       </div>
 

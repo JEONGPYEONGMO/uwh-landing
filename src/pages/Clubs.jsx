@@ -286,8 +286,8 @@ const Clubs = () => {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredClubs.map((club) => (
-            <div key={club.id} className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-all overflow-hidden border border-gray-200 dark:border-gray-700">
-              <div className="p-6">
+            <div key={club.id} className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-all overflow-hidden border border-gray-200 dark:border-gray-700 flex flex-col">
+              <div className="p-6 flex-1 flex flex-col">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
                     <div className="text-4xl">{club.image}</div>
@@ -318,9 +318,11 @@ const Clubs = () => {
                   </span>
                   <span className="ml-2 text-xs text-gray-500">설립: {club.established}년</span>
                 </div>
-                <button onClick={() => openModal(club)} className="w-full text-center bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all">
-                  상세 설명
-                </button>
+                <div className="mt-auto">
+                  <button onClick={() => openModal(club)} className="w-full text-center bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-3 rounded-xl font-semibold hover:shadow-lg transition-all">
+                    상세 설명
+                  </button>
+                </div>
               </div>
             </div>
           ))}

@@ -164,7 +164,8 @@ const Learning = () => {
                   <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-white">작성자</th>
                   <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-white">날짜</th>
                   <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-white">조회</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-white">액션</th>
+                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900 dark:text-white">👁️ 보기</th>
+                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900 dark:text-white">📥 다운로드</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -195,31 +196,40 @@ const Learning = () => {
                         <span>{material.views.toLocaleString()}</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-2">
+                    <td className="px-6 py-4 text-center">
+                      <button 
+                        onClick={() => {
+                          increaseViews(material.id);
+                          if (material.fileUrl) {
+                            window.open(material.fileUrl, '_blank');
+                          } else {
+                            alert('⚠️ 보기 가능한 자료가 없습니다.');
+                          }
+                        }}
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-all font-semibold"
+                      >
+                        <Eye className="w-4 h-4" />
+                        보기
+                      </button>
+                    </td>
+                    <td className="px-6 py-4 text-center">
+                      {material.fileUrl ? (
                         <button 
-                          onClick={() => increaseViews(material.id)}
-                          className="p-2 text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900 rounded-lg transition-all"
+                          onClick={() => handleDownload(material)}
+                          className="inline-flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-all font-semibold"
                         >
-                          <Eye className="w-5 h-5" />
+                          <Download className="w-4 h-4" />
+                          다운로드
                         </button>
-                        {material.type !== '비디오' && material.fileUrl && (
-                          <button 
-                            onClick={() => handleDownload(material)}
-                            className="p-2 text-green-500 hover:bg-green-50 dark:hover:bg-green-900 rounded-lg transition-all"
-                          >
-                            <Download className="w-5 h-5" />
-                          </button>
-                        )}
-                        {material.type !== '비디오' && !material.fileUrl && (
-                          <button 
-                            onClick={() => alert('⚠️ 다운로드 가능한 파일이 없습니다.')}
-                            className="p-2 text-gray-400 rounded-lg cursor-not-allowed"
-                          >
-                            <Download className="w-5 h-5" />
-                          </button>
-                        )}
-                      </div>
+                      ) : (
+                        <button 
+                          disabled
+                          className="inline-flex items-center gap-2 px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 rounded-lg cursor-not-allowed"
+                        >
+                          <Download className="w-4 h-4" />
+                          불가
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))}

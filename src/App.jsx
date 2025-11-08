@@ -1,6 +1,7 @@
 // src/App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
 
 // Components
 import Navbar from './components/Navbar';
@@ -18,19 +19,21 @@ import Team from './pages/Team';
 function App() {
   return (
     <Router>
-      <div className="App">
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/shop" element={<Shop />} />
-          <Route path="/shop-admin" element={<ShopAdmin />} />
-          <Route path="/events" element={<Events />} />
-          <Route path="/clubs" element={<Clubs />} />
-          <Route path="/travel" element={<Travel />} />
-          <Route path="/team" element={<Team />} />
-        </Routes>
-      </div>
+      <AuthProvider>
+        <div className="App">
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/shop" element={<Shop />} />
+            <Route path="/shop-admin" element={<ShopAdmin />} />
+            <Route path="/events" element={<Events />} />
+            <Route path="/clubs" element={<Clubs />} />
+            <Route path="/travel" element={<Travel />} />
+            <Route path="/team" element={<Team />} />
+          </Routes>
+        </div>
+      </AuthProvider>
     </Router>
   );
 }

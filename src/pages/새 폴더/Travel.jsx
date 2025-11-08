@@ -1,21 +1,14 @@
 // src/pages/Travel.jsx
 import React, { useState, useEffect } from 'react';
 import { Calendar, MapPin, Clock, MessageCircle, Plus, X, Send, User } from 'lucide-react';
-import { useAuth } from '../contexts/AuthContext';
 
 const Travel = () => {
-  const { currentUser, userRole, logout } = useAuth();
-  const isAdmin = userRole === 'admin';
   const [selectedDate, setSelectedDate] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
-  const [editingTravelerId, setEditingTravelerId] = useState(null);
-  const [editFormData, setEditFormData] = useState(null);
   const [travelers, setTravelers] = useState([
     {
       id: 1,
       name: '김수영',
-      authorUid: 'demo-user-1', // Firebase uid
-      authorEmail: 'suyoung@example.com',
       startDate: '2025-11-15',
       endDate: '2025-11-20',
       country: '한국',
@@ -40,8 +33,6 @@ const Travel = () => {
     {
       id: 2,
       name: '이서연',
-      authorUid: 'demo-user-2', // Firebase uid
-      authorEmail: 'seoyeon@example.com',
       startDate: '2025-11-25',
       endDate: '2025-11-28',
       country: '한국',
@@ -168,12 +159,6 @@ const Travel = () => {
   // 여행자 추가
   const handleAddTraveler = (e) => {
     e.preventDefault();
-    
-    if (!currentUser) {
-      alert('로그인이 필요합니다.');
-      return;
-    }
-    
     const colors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899'];
     
     // 추천 클럽 가져오기
@@ -192,8 +177,6 @@ const Travel = () => {
     const newTravelerData = {
       ...newTraveler,
       id: Date.now(),
-      authorUid: currentUser.uid, // Firebase uid
-      authorEmail: currentUser.email,
       color: colors[travelers.length % colors.length],
       comments: autoComment
     };
@@ -212,49 +195,6 @@ const Travel = () => {
       note: ''
     });
     alert('여행자 정보가 등록되었습니다!');
-  };
-
-  // 수정 모드 시작
-  const startEditing = (traveler) => {
-    setEditingTravelerId(traveler.id);
-    setEditFormData({ ...traveler });
-  };
-
-  // 수정 취소
-  const cancelEditing = () => {
-    setEditingTravelerId(null);
-    setEditFormData(null);
-  };
-
-  // 로그아웃 핸들러
-  const handleLogout = async () => {
-    const result = await logout();
-    if (result.success) {
-      setEditingTravelerId(null);
-      setEditFormData(null);
-      alert('로그아웃되었습니다.');
-    }
-  };
-
-  // 수정 저장
-  const handleUpdateTraveler = (e) => {
-    e.preventDefault();
-    
-    setTravelers(travelers.map(t => 
-      t.id === editingTravelerId ? { ...editFormData, comments: t.comments } : t
-    ));
-    
-    setEditingTravelerId(null);
-    setEditFormData(null);
-    alert('여행자 정보가 수정되었습니다!');
-  };
-
-  // 여행자 삭제
-  const handleDeleteTraveler = (travelerId) => {
-    if (window.confirm('정말 삭제하시겠습니까?')) {
-      setTravelers(travelers.filter(t => t.id !== travelerId));
-      alert('여행자 정보가 삭제되었습니다.');
-    }
   };
 
   // 댓글 추가
@@ -332,47 +272,15 @@ const Travel = () => {
     <div className="pt-16">
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-blue-500 to-cyan-500 py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Login/Logout Section */}
-          <div className="flex justify-end mb-4">
-            {currentUser ? (
-              <div className="flex items-center gap-3 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
-                <div className="text-sm text-white font-semibold flex items-center gap-2">
-                  <User className="w-4 h-4" />
-                  {currentUser.email}
-                  {isAdmin && (
-                    <span className="ml-2 px-2 py-0.5 bg-red-500 text-white text-xs rounded-full font-bold">
-                      관리자
-                    </span>
-                  )}
-                </div>
-                <button
-                  onClick={handleLogout}
-                  className="px-4 py-1.5 bg-white/30 hover:bg-white/40 text-white rounded-full transition-all text-sm font-semibold"
-                >
-                  로그아웃
-                </button>
-              </div>
-            ) : (
-              <a
-                href="/login"
-                className="px-6 py-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white rounded-full transition-all text-sm font-semibold"
-              >
-                로그인
-              </a>
-            )}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+          <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-semibold mb-6">
+            <MapPin className="w-4 h-4" />
+            여행하며 수중하키를!
           </div>
-
-          <div className="text-center text-white">
-            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-semibold mb-6">
-              <MapPin className="w-4 h-4" />
-              여행하며 수중하키를!
-            </div>
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">UWH 여행자</h1>
-            <p className="text-xl md:text-2xl max-w-3xl mx-auto opacity-90">
-              여행지에서 수중하키를 함께할 동료를 찾아보세요
-            </p>
-          </div>
+          <h1 className="text-5xl md:text-6xl font-bold mb-6">UWH 여행자</h1>
+          <p className="text-xl md:text-2xl max-w-3xl mx-auto opacity-90">
+            여행지에서 수중하키를 함께할 동료를 찾아보세요
+          </p>
         </div>
       </div>
 
@@ -560,148 +468,13 @@ const Travel = () => {
                 const todayStr = today.toISOString().split('T')[0];
                 return traveler.endDate >= todayStr;
               })
-              .map((traveler) => {
-                const isEditing = editingTravelerId === traveler.id;
-                const isAuthor = currentUser && traveler.authorUid === currentUser.uid;
-                const canEdit = isAuthor || isAdmin; // 작성자 또는 관리자
-                
-                return (
+              .map((traveler) => (
               <div
                 key={traveler.id}
                 className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-all border-t-4"
                 style={{ borderTopColor: traveler.color }}
               >
                 <div className="p-6">
-                  {/* Author Actions */}
-                  {canEdit && !isEditing && (
-                    <div className="flex justify-end gap-2 mb-4">
-                      {isAdmin && !isAuthor && (
-                        <span className="px-2 py-1 bg-red-100 text-red-600 text-xs rounded-full font-semibold">
-                          관리자 권한
-                        </span>
-                      )}
-                      <button
-                        onClick={() => startEditing(traveler)}
-                        className="px-3 py-1.5 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600 transition-all"
-                      >
-                        수정
-                      </button>
-                      <button
-                        onClick={() => handleDeleteTraveler(traveler.id)}
-                        className="px-3 py-1.5 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600 transition-all"
-                      >
-                        삭제
-                      </button>
-                    </div>
-                  )}
-
-                  {isEditing ? (
-                    /* Edit Form */
-                    <form onSubmit={handleUpdateTraveler} className="space-y-4">
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
-                          이름
-                        </label>
-                        <input
-                          type="text"
-                          value={editFormData.name}
-                          onChange={(e) => setEditFormData({ ...editFormData, name: e.target.value })}
-                          className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
-                        />
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-3">
-                        <div>
-                          <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
-                            시작일
-                          </label>
-                          <input
-                            type="date"
-                            value={editFormData.startDate}
-                            onChange={(e) => setEditFormData({ ...editFormData, startDate: e.target.value })}
-                            className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
-                            종료일
-                          </label>
-                          <input
-                            type="date"
-                            value={editFormData.endDate}
-                            onChange={(e) => setEditFormData({ ...editFormData, endDate: e.target.value })}
-                            className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
-                          />
-                        </div>
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
-                          지역
-                        </label>
-                        <input
-                          type="text"
-                          value={editFormData.region}
-                          onChange={(e) => setEditFormData({ ...editFormData, region: e.target.value })}
-                          className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
-                          운동 가능 시간
-                        </label>
-                        <input
-                          type="text"
-                          value={editFormData.availableTimes}
-                          onChange={(e) => setEditFormData({ ...editFormData, availableTimes: e.target.value })}
-                          className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
-                          하고 싶은 말
-                        </label>
-                        <textarea
-                          value={editFormData.message}
-                          onChange={(e) => setEditFormData({ ...editFormData, message: e.target.value })}
-                          rows="3"
-                          className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white resize-none"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
-                          기타 사항
-                        </label>
-                        <textarea
-                          value={editFormData.note || ''}
-                          onChange={(e) => setEditFormData({ ...editFormData, note: e.target.value })}
-                          rows="2"
-                          className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white resize-none"
-                        />
-                      </div>
-
-                      <div className="flex gap-2">
-                        <button
-                          type="submit"
-                          className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-all font-semibold"
-                        >
-                          저장
-                        </button>
-                        <button
-                          type="button"
-                          onClick={cancelEditing}
-                          className="flex-1 bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-all font-semibold"
-                        >
-                          취소
-                        </button>
-                      </div>
-                    </form>
-                  ) : (
-                    /* Display Mode */
-                    <>
                   <div className="flex items-center gap-3 mb-4">
                     <div
                       className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl"
@@ -820,23 +593,13 @@ const Travel = () => {
                       </button>
                     </div>
                   </div>
-                  </>
-                  )}
                 </div>
               </div>
-                );
-              })}
+            ))}
 
             {/* Add New Traveler Card */}
             <div
-              onClick={() => {
-                if (!currentUser) {
-                  alert('로그인이 필요합니다.');
-                  window.location.href = '/login';
-                } else {
-                  setShowAddForm(true);
-                }
-              }}
+              onClick={() => setShowAddForm(true)}
               className="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-lg hover:shadow-xl transition-all border-2 border-dashed border-blue-300 dark:border-blue-700 cursor-pointer group"
             >
               <div className="h-full flex flex-col items-center justify-center p-12 text-center">

@@ -169,8 +169,7 @@ const LearningFirebase = () => {
                     <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-white">작성자</th>
                     <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-white">날짜</th>
                     <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-white">조회</th>
-                    <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900 dark:text-white">👁️ 보기</th>
-                    <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900 dark:text-white">📥 다운로드</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-white">액션</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -201,40 +200,25 @@ const LearningFirebase = () => {
                           <span>{material.views?.toLocaleString() || 0}</span>
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-center">
-                        <button 
-                          onClick={async () => {
-                            await handleView(material.id);
-                            if (material.fileUrl) {
-                              window.open(material.fileUrl, '_blank');
-                            } else {
-                              alert('⚠️ 보기 가능한 자료가 없습니다.');
-                            }
-                          }}
-                          className="inline-flex items-center gap-1 px-3 py-1.5 text-sm bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-all font-semibold"
-                        >
-                          <Eye className="w-3.5 h-3.5" />
-                          보기
-                        </button>
-                      </td>
-                      <td className="px-6 py-4 text-center">
-                        {material.fileUrl ? (
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-2">
                           <button 
-                            onClick={() => handleDownload(material)}
-                            className="inline-flex items-center gap-1 px-3 py-1.5 text-sm bg-green-500 hover:bg-green-600 text-white rounded-lg transition-all font-semibold"
+                            onClick={() => handleView(material.id)}
+                            className="p-2 text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900 rounded-lg transition-all"
+                            title="조회수 증가"
                           >
-                            <Download className="w-3.5 h-3.5" />
-                            다운로드
+                            <Eye className="w-5 h-5" />
                           </button>
-                        ) : (
-                          <button 
-                            disabled
-                            className="inline-flex items-center gap-1 px-3 py-1.5 text-sm bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 rounded-lg cursor-not-allowed"
-                          >
-                            <Download className="w-3.5 h-3.5" />
-                            불가
-                          </button>
-                        )}
+                          {material.fileUrl && (
+                            <button 
+                              onClick={() => handleDownload(material)}
+                              className="p-2 text-green-500 hover:bg-green-50 dark:hover:bg-green-900 rounded-lg transition-all"
+                              title="다운로드"
+                            >
+                              <Download className="w-5 h-5" />
+                            </button>
+                          )}
+                        </div>
                       </td>
                     </tr>
                   ))}

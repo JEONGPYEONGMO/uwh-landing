@@ -206,9 +206,9 @@ const Learning = () => {
                             alert('⚠️ 보기 가능한 자료가 없습니다.');
                           }
                         }}
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-all font-semibold"
+                        className="inline-flex items-center gap-1 px-3 py-1.5 text-sm bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-all font-semibold"
                       >
-                        <Eye className="w-4 h-4" />
+                        <Eye className="w-3.5 h-3.5" />
                         보기
                       </button>
                     </td>
@@ -216,17 +216,17 @@ const Learning = () => {
                       {material.fileUrl ? (
                         <button 
                           onClick={() => handleDownload(material)}
-                          className="inline-flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-all font-semibold"
+                          className="inline-flex items-center gap-1 px-3 py-1.5 text-sm bg-green-500 hover:bg-green-600 text-white rounded-lg transition-all font-semibold"
                         >
-                          <Download className="w-4 h-4" />
+                          <Download className="w-3.5 h-3.5" />
                           다운로드
                         </button>
                       ) : (
                         <button 
                           disabled
-                          className="inline-flex items-center gap-2 px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 rounded-lg cursor-not-allowed"
+                          className="inline-flex items-center gap-1 px-3 py-1.5 text-sm bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 rounded-lg cursor-not-allowed"
                         >
-                          <Download className="w-4 h-4" />
+                          <Download className="w-3.5 h-3.5" />
                           불가
                         </button>
                       )}

@@ -36,7 +36,7 @@ const Navigation = ({ darkMode, setDarkMode }) => {
           {/* 로고 */}
           <Link to="/" className="flex items-center gap-3 cursor-pointer">
             <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg transform hover:scale-110 transition-transform">
-              <span className="text-2xl">👋</span>
+              <span className="text-2xl">🤿</span>
             </div>
             <span className="text-2xl font-bold text-gray-900 dark:text-white">UWH</span>
           </Link>

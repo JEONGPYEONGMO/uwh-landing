@@ -1,7 +1,7 @@
 // src/pages/About.jsx
 import React from 'react';
 import { Target, Users, Heart, Zap } from 'lucide-react';
-
+import underwaterHockeyImg from '../assets/underwater-hockey.jpg';
 const About = () => {
   const values = [
     {
@@ -68,7 +68,11 @@ const About = () => {
             </div>
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl aspect-square flex items-center justify-center border border-gray-200 dark:border-gray-700">
               <div className="text-center p-8">
-                <div className="text-9xl mb-4">🏒</div>
+                <img 
+                   src={underwaterHockeyImg} 
+                    alt="Underwater Hockey" 
+                    className="w-64 h-64 object-contain rounded-lg mb-4"
+                />
                 <p className="text-2xl font-bold text-gray-900 dark:text-white">Since 2025</p>
                 <p className="text-gray-600 dark:text-gray-400">전 세계를 연결하다</p>
               </div>
